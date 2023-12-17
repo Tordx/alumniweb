@@ -1,4 +1,4 @@
-import { faChevronDown, faLock, faUserTag } from '@fortawesome/free-solid-svg-icons'
+import { faBuilding, faCalendarAlt, faCalendarCheck, faCalendarXmark, faChevronDown, faChevronRight, faLock, faMoneyBill, faSuitcase, faUserTag } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from 'auth'
 import React, { useContext } from 'react'
 import Card from 'screens/components/global/card'
@@ -109,11 +109,11 @@ export default function Employment({}: Props) {
         <Card className='form-wrapper'>
             <div className='form-container'>
 
-            <h1>Account Details</h1>
+            <h1>Employment Details</h1>
             <Select
                   selection={['Employed', 'Self-Employed', 'Retired', 'Unemployed']}
                   title = 'Employment Status'
-                  icon = {faChevronDown}
+                  icon = {faChevronRight}
                   onChange={(e) => {
                     setform((prev) => [
                     {
@@ -126,8 +126,8 @@ export default function Employment({}: Props) {
                   value= {form[0].employee} 
             />
                 <LoginFields
-                    title='Current Work'
-                    icon = {faUserTag}
+                    title='Current/Previous Work'
+                    icon = {faSuitcase}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -135,12 +135,12 @@ export default function Employment({}: Props) {
                           currentwork: e.target.value,
                         },
                       ])}
-                    placeholder= 'Current Work' 
+                    placeholder= 'Enter Current or Previous work' 
                     value= {form[0].currentwork} 
                 />
                 <LoginFields
                     title = 'Salary/Income Range'
-                    icon = {faLock}
+                    icon = {faMoneyBill}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -152,8 +152,8 @@ export default function Employment({}: Props) {
                     value= {form[0].salary} 
                 />
                 <LoginFields
-                  title='Work Name*'
-                  icon={faLock}
+                  title='Company Name*'
+                  icon={faBuilding}
                   disabled={false}
                   onChange={(e) => setform((prev) => [
                     {
@@ -169,7 +169,8 @@ export default function Employment({}: Props) {
                 />
                     <LoginFields
                       title='Year Start*'
-                      icon={faLock}
+                      type = 'number'
+                      icon={faCalendarCheck}
                       disabled={false}
                       onChange={(e) => setform((prev) => [
                         {
@@ -180,45 +181,47 @@ export default function Employment({}: Props) {
                           },
                         },
                       ])}
-                      placeholder='Salary/Income Range'
+                      placeholder='Enter Year Started'
                       value={form[0].history.yearstart}
                     />
-                    {form[0].employee === 'Unemployed' && <LoginFields
-                      title='Year End*'
-                      icon={faLock}
-                      disabled={false}
-                      onChange={(e) => setform((prev) => [
-                        {
-                          ...prev[0],
-                          history: {
-                            ...prev[0].history,
-                            yearend: e.target.value,
+                    {form[0].employee === 'Unemployed' || form[0].employee === 'Retired' && 
+                      <LoginFields
+                        title='Year End*'
+                        icon={faCalendarXmark}
+                        disabled={false}
+                        onChange={(e) => setform((prev) => [
+                          {
+                            ...prev[0],
+                            history: {
+                              ...prev[0].history,
+                              yearend: e.target.value,
+                            },
                           },
-                        },
-                      ])}
-                      placeholder='Enter the year ended*'
-                      value={form[0].history.yearend}
-                    />}
-                   {form[0].employee !== 'Unemployed' &&
-                   <Select
-                   selection={['Yes', 'No']}
-                   title='Is this your current job?'
-                   icon={faChevronDown}
-                   onChange={(e) => {
-                    const selectedcurrent = e.target.value === 'Yes' ? true : false
-                    setform((prev) => [
-                      {
-                        ...prev[0],
-                        history: {
-                          ...prev[0].history,
-                          current: selectedcurrent,
-                        },
-                      },
-                  ])}}
-                   placeholder='Current Job?'
-                   value={form[0].history.current ? 'Yes' : 'No'}
+                        ])}
+                        placeholder='Enter the year ended*'
+                        value={form[0].history.yearend}
                       />
                     }
+                   { form[0].employee !== 'Unmployed'  &&
+                    <Select
+                      selection={['Yes', 'No']}
+                      title='Is this your current/last job?'
+                      icon={faChevronRight}
+                      onChange={(e) => {
+                        const selectedcurrent = e.target.value === 'Yes' ? true : false
+                        setform((prev) => [
+                          {
+                            ...prev[0],
+                            history: {
+                              ...prev[0].history,
+                              current: selectedcurrent,
+                            },
+                          },
+                      ])}}
+                      placeholder='Current Job?'
+                      value={form[0].history.current ? 'Yes' : 'No'}
+                    />
+                  }
                 <button onClick = {updateEmployment} style = {{marginTop: 20}}>
                       Update
                 </button>

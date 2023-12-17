@@ -8,10 +8,12 @@ import { logindata } from 'types/interfaces'
 import {updateDoc, doc} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 type Props = {}
 
 export default function Account({}: Props) {
     const {currentUser} = useContext(AuthContext)
+    const navigate = useNavigate()
     const [form, setform] = React.useState<logindata[]>([
        { uid: '',
         username: '',
@@ -45,6 +47,10 @@ export default function Account({}: Props) {
             console.log('Document successfully updated.');
             } catch (error) {
             console.error('Error updating document:', error);
+            if(error == 'FirebaseError: Firebase: Error (auth/requires-recent-login).'){
+              alert('You need to re-login before you may change your password')
+              navigate('/logout')
+            }
             }
         } 
       };
@@ -59,6 +65,7 @@ export default function Account({}: Props) {
             <h1>Account Details</h1>
                 <LoginFields
                     title='Current Password'
+                    type  ='password'
                     icon = {faLock}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
@@ -72,6 +79,7 @@ export default function Account({}: Props) {
                 />
                 <LoginFields
                     title='New Password'
+                    type  ='password'
                     icon = {faLock}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
@@ -85,6 +93,7 @@ export default function Account({}: Props) {
                 />
                 <LoginFields
                     title = 'Confirm New Password'
+                    type  ='password'
                     icon = {faLock}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [

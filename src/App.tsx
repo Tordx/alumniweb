@@ -16,6 +16,7 @@ import Education from 'screens/home/details/education';
 import Employment from 'screens/home/details/employment';
 import Personal from 'screens/home/details/personal';
 import Status from 'screens/home/details/status';
+import Logout from 'screens/partials/auth/logout';
 
 
 //**NOTE**(((((ONLY USE TSRFC WHEN CREATING NEW SCREENS)))))**NOTE**/
@@ -40,6 +41,7 @@ const App: React.FC = () => {
           <Route path="forgotpassword" element={<ForgotPassword/>} />
           <Route path='*' element={<Error/>} />
           <Route index element = {<Login/>}/>
+          <Route path='logout' element = {<Logout/>} />
         </Route>
         <Route path = "alumni">
           <Route  path="events" index element={ <ProtectedRoute><Events/></ProtectedRoute>}/>
@@ -50,6 +52,7 @@ const App: React.FC = () => {
           <Route path='employment' index element={ <ProtectedRoute><Employment/></ProtectedRoute>}/>
           <Route path='personal' index element={ <ProtectedRoute><Personal/></ProtectedRoute>}/>
           <Route path='status' index element={ <ProtectedRoute><Status/></ProtectedRoute>}/>
+
         </Route>
       </Routes>
     

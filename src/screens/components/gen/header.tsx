@@ -68,6 +68,8 @@ export const Header: React.FC<Props> = ({menu}) => {
         {menu.map((item: any, index: number) =>(
           <div key={index}  onClick={() => __navigate(item.id)}>
               <NavBarItems
+              
+                  onClick={() => setDropdownVisible(false)}
                   active={item.id === active}
                   item={item} />
           </div>

@@ -10,7 +10,7 @@ type Props = {
 	disabled: boolean,
 	color?: string,
 	title?: string,
-	type?: string
+	type?: string,
 	
 }
 

@@ -1,4 +1,4 @@
-import { faChevronDown, faLock, faMehBlank } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarDay, faChevronDown, faChevronLeft, faChevronRight, faGlobe, faLock, faMap, faMehBlank, faPhone, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from 'auth'
 import React from 'react'
 import Card from 'screens/components/global/card'
@@ -105,7 +105,7 @@ export default function Personal({}: Props) {
             <h1>Personal Details</h1>
                 <LoginFields
                     title='Full Name'
-                    icon = {faLock}
+                    icon = {faUserCircle}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -140,7 +140,7 @@ export default function Personal({}: Props) {
                 />
                 <LoginFields
                     title = 'Age'
-                    icon = {faLock}
+                    icon = {faCalendarDay}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -154,7 +154,7 @@ export default function Personal({}: Props) {
                 <Select
                     selection={['Male', 'Female']}
                     title = 'Sex'
-                    icon = {faChevronDown}
+                    icon = {faChevronRight}
                     onChange={(e) => {
                       setform((prev) => [
                       {
@@ -169,7 +169,7 @@ export default function Personal({}: Props) {
                 <Select
                     selection={['Single', 'Married', 'Divorce', 'Widow']}
                     title = 'Civil Status'
-                    icon = {faChevronDown}
+                    icon = {faChevronRight}
                     onChange={(e) => {
                       setform((prev) => [
                       {
@@ -183,7 +183,7 @@ export default function Personal({}: Props) {
                 />
                 <LoginFields
                     title = 'Address'
-                    icon = {faLock}
+                    icon = {faMap}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -196,7 +196,7 @@ export default function Personal({}: Props) {
                 />
                 <LoginFields
                     title = 'Contact Number'
-                    icon = {faLock}
+                    icon = {faPhone}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -209,7 +209,7 @@ export default function Personal({}: Props) {
                 />
                 <LoginFields
                     title = 'Social Media(e.g.: Facebook, X, Instragram)'
-                    icon = {faLock}
+                    icon = {faGlobe}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {

@@ -6,6 +6,7 @@ import { Icon } from "@mui/material";
 type Props = {
     item: Items,
     active: any,
+    onClick: (e: any) => void,
 }
 
 type Items = {
@@ -15,11 +16,12 @@ type Items = {
 
 }
 
- const NavBarItems: React.FC<Props> = ({ item, active }) => {
+ const NavBarItems: React.FC<Props> = ({ item, active, onClick}) => {
 
     const [hover, setHover] = useState(false);
     return (
-        <Link 
+        <Link
+            onClick={onClick}
             to={item.path} 
             className={active ? 'tab-active': 'tab-inactive'} >
             <span className='tab-button'>{item.title}</span>

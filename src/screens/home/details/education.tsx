@@ -1,4 +1,4 @@
-import { faChevronDown, faLock } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faChevronDown, faChevronLeft, faChevronRight, faIdCard, faLock, faRankingStar, faSchool } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from 'auth'
 import React from 'react'
 import Card from 'screens/components/global/card'
@@ -122,7 +122,7 @@ export default function Education({}: Props) {
                 <Select
                     selection={['Kalamansig NHS', 'Santa Maria NHS']}
                     title = 'Did You pursue higher Education'
-                    icon = {faChevronDown}
+                    icon = {faChevronRight}
                     onChange={(e) => {
                       setform((prev) => [
                       {
@@ -136,7 +136,7 @@ export default function Education({}: Props) {
                 />
                 <LoginFields
                     title='ID Number*'
-                    icon = {faLock}
+                    icon = {faIdCard}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -149,7 +149,7 @@ export default function Education({}: Props) {
                 />
                 <LoginFields
                     title = 'Batch/Year Graduated'
-                    icon = {faLock}
+                    icon = {faCalendarAlt}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -163,7 +163,7 @@ export default function Education({}: Props) {
                 <Select
                     selection={['Yes', 'No']}
                     title = 'Did You pursue higher Education'
-                    icon = {faChevronDown}
+                    icon = {faChevronRight}
                     onChange={(e) => {
                       const selected = e.target.value == 'Yes' ? true: false
                       setform((prev) => [
@@ -178,7 +178,7 @@ export default function Education({}: Props) {
                 />
                 <LoginFields
                     title = 'Course'
-                    icon = {faLock}
+                    icon = {faSchool}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {
@@ -192,7 +192,7 @@ export default function Education({}: Props) {
                 <Select
                     selection={['Yes', 'No']}
                     title = 'Did you take any Professional Exam?'
-                    icon = {faChevronDown}
+                    icon = {faChevronRight}
                     onChange={(e) => {
                       const selected = e.target.value == 'Yes' ? true: false
                       setform((prev) => [
@@ -208,7 +208,7 @@ export default function Education({}: Props) {
                 <Select
                     selection={['Yes', 'No']}
                     title = 'Are you a Top Notcher'
-                    icon = {faChevronDown}
+                    icon = {faChevronRight}
                     onChange={(e) => {
                       const selected = e.target.value == 'Yes' ? true: false
                       setform((prev) => [
@@ -224,7 +224,7 @@ export default function Education({}: Props) {
                 
                 <LoginFields
                     title = 'Top Notcher Rank'
-                    icon = {faLock}
+                    icon = {faRankingStar}
                     disabled = {false}
                     onChange={(e) => setform((prev) => [
                         {

@@ -13,6 +13,9 @@ export default function Login({}) {
   const [loginemail, setloginEmail] = useState('');
   const [loginpassword, setloginPassword] = useState('');
   const { currentUser } = useContext(AuthContext);
+  const [toast, settoast] = useState('');
+  const [loading, setloading] = useState(false);
+  const [error, seterror] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -37,6 +40,9 @@ export default function Login({}) {
 
    const checkStatus = async (e: any) => {
     e.preventDefault()
+    seterror(false)
+    setloading(true)
+    settoast('checking email...')
     const querySnapshot = await getDocs(collection(db, "user"));
     const userData: logindata[] = [];
   
@@ -55,22 +61,30 @@ export default function Login({}) {
     });
     
     if (userData.length > 0) {
+      settoast('verifying credentials...')
       const isAdmin = userData.some((user) => user.type === "alumni");
       console.log(isAdmin);
       if (isAdmin) {
         const email = loginemail;
         const password = loginpassword;
+        settoast('logging in...')
         await signInWithEmailAndPassword(auth, email, password).then(() => {
-          navigate("/alumni/news");
+          setloading(false)
+          navigate("/alumni/news")
         }).catch((error: any) => {
           console.log(error)
-          alert('something went wrong')
+          if(error == 'FirebaseError: Firebase: Error (auth/invalid-login-credentials).'){
+          settoast('email and password did not matched.')
+          seterror(true)
+        }
         })
       } else {
-        alert("The provided email does not exists user.");
+        settoast('The provided email used in a non-user account')
+        seterror(true)
       }
     } else {
-      alert("no matches found with the email and password provided.");
+      settoast('email provided have no account with us')
+      seterror(true)
     }
   }
 
@@ -85,7 +99,7 @@ export default function Login({}) {
           </span>
           <h1>Login to your Account</h1>
           <LoginFields 
-            title = 'email address *'
+            title = 'email address'
             icon = {faUser}
             value={loginemail}
             placeholder='email address'
@@ -93,7 +107,8 @@ export default function Login({}) {
             onChange={(e) => setloginEmail(e.target.value)} 
           />
           <LoginFields 
-            title = 'password *'
+            title = 'password'
+            type  ='password'
             icon = {faLock}
             value={loginpassword}
             placeholder='password'
@@ -102,6 +117,7 @@ export default function Login({}) {
           />
           <a>Forgot password?</a>
           <button onClick={checkStatus}>Login</button>
+          {loading && <p style={{color: error ? 'red' : 'black', fontSize: 12, textAlign: 'center'}}>{toast}</p>}
         </div>
       </div>
     </div>

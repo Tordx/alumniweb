@@ -5,7 +5,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { auth } from '../../../firebase/index';
 type Props = {}
 
-export default function logout({}: Props) {
+export default function Logout({}: Props) {
 
 
     const {currentUser} = useContext(AuthContext)
