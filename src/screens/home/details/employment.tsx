@@ -76,7 +76,7 @@ export default function Employment({}: Props) {
                 current: history.current,
               },
             }).then(() => {
-              alert('Personal Information succesfully updated')
+              alert('Employment Information succesfully updated')
               setform([
                 { 
                   uid: form[0].uid,

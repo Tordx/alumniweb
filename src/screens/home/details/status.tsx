@@ -42,7 +42,7 @@ export default function Education({}: Props) {
           uid: uid,
           status: status
         }).then(() => {
-          alert('Educational Information successfully updated');
+          alert('Updated Alumni Status successfully updated');
           setform([
             { 
               uid: uid,
@@ -80,7 +80,7 @@ export default function Education({}: Props) {
             <h1>Alumni Status</h1>
             {form[0].status && form[0].status.map((item, index) => (
               <LoginFields
-                title='Alumni Status'
+                title='Attended'
                 icon={faCalendar}
                 disabled={true}
                 onChange={() => {}}
@@ -89,7 +89,7 @@ export default function Education({}: Props) {
               />
             ))} 
             <LoginFields
-              title='Alumni Status'
+              title='Did you join alumni before? If Yes, what year?'
               icon={faAdd}
               disabled={false}
               onChange={(e) => {setnewstatus(e.target.value)}}
