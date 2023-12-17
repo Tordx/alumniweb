@@ -99,3 +99,11 @@ button:active {
   }
 
 }
+
+@media screen and (min-width: 1920px) and (min-height: 1080px) {
+
+  .container {
+    max-width: 10000px;
+  }
+	
+}
