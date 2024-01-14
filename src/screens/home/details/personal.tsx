@@ -5,16 +5,17 @@ import Card from 'screens/components/global/card'
 import { LoginFields, Select } from 'screens/components/global/fields'
 import Form from 'screens/contents/forms'
 import { educationdata, logindata, personaldata } from 'types/interfaces'
-import {updateDoc, doc} from '@firebase/firestore'
+import {updateDoc, doc, setDoc} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
-import { fetcheducation, fetchpersonaldata } from '../../../firebase/function'
+import { fetcheducation, fetchpersonaldata, update } from '../../../firebase/function'
 type Props = {}
 
 export default function Personal({}: Props) {
     const {currentUser} = React.useContext(AuthContext)
     const [form, setform] = React.useState<personaldata[]>([
       { 
+        
         uid: '',
         name: '',
         birthdate: '',
@@ -88,12 +89,14 @@ export default function Personal({}: Props) {
                 }
               ])
             fetchdata()
+            update(currentUser?.uid || '')
         })
         } catch (error) {
         console.error('Error updating document:', error);
         }
       } 
     };
+
 
   return (
     <div className='container'>

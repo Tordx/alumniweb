@@ -8,7 +8,7 @@ import { employmentdata, logindata } from 'types/interfaces'
 import {updateDoc, doc} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
-import { fetcheducation, fetchemployment } from '../../../firebase/function'
+import { fetcheducation, fetchemployment, update } from '../../../firebase/function'
 type Props = {}
 
 export default function Employment({}: Props) {
@@ -76,6 +76,8 @@ export default function Employment({}: Props) {
                 current: history.current,
               },
             }).then(() => {
+
+            fetchdata()
               alert('Employment Information succesfully updated')
               setform([
                 { 
@@ -92,7 +94,7 @@ export default function Employment({}: Props) {
                   }
                 }
              ])
-            fetchdata()
+            update(currentUser?.uid || '')
         })
         } catch (error) {
         console.error('Error updating document:', error);

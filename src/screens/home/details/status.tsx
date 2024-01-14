@@ -5,7 +5,7 @@ import { LoginFields } from 'screens/components/global/fields';
 import { statusdata } from 'types/interfaces';
 import { updateDoc, doc } from '@firebase/firestore';
 import { auth, db } from '../../../firebase/index';
-import { fetcheducation, fetchstatus } from '../../../firebase/function';
+import { fetcheducation, fetchstatus, update } from '../../../firebase/function';
 import { AuthContext } from 'auth';
 
 type Props = {};
@@ -49,6 +49,7 @@ export default function Education({}: Props) {
               status: status,
             }
           ]);
+          update(currentUser?.uid || '')
         });
       } catch (error) {
         console.error('Error updating document:', error);

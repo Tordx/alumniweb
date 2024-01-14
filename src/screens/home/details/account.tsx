@@ -9,6 +9,7 @@ import {updateDoc, doc} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { update } from '../../../firebase/function'
 type Props = {}
 
 export default function Account({}: Props) {
@@ -42,6 +43,7 @@ export default function Account({}: Props) {
                      confirmpassword: '',
                      type: '',}
                  ])
+                 update(currentUser?.uid || '')
             })
             
             console.log('Document successfully updated.');

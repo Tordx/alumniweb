@@ -1,4 +1,4 @@
-import {getDocs,collection} from '@firebase/firestore'
+import {getDocs,collection, setDoc, doc} from '@firebase/firestore'
 import { db } from '..';
 import { educationdata, employmentdata, personaldata, postdata, statusdata } from '../../types/interfaces';
 
@@ -124,4 +124,25 @@ export const fetchdata = async(data: string) => {
   }
 
   
-  
+  const generateRandomKey = (length: number) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
+
+  export const update = async(uid: string) => {
+    const id = generateRandomKey(30)
+    try {
+    const updateRef = doc(db, 'updates', uid)
+    await setDoc(updateRef, {
+      date: new Date(),
+      uid: uid,
+      update: id,
+    })
+    } catch(error) {
+      console.log(error)
+    }
+  }

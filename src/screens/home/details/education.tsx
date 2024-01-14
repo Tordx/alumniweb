@@ -8,7 +8,7 @@ import { educationdata, logindata } from 'types/interfaces'
 import {updateDoc, doc} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
-import { fetcheducation } from '../../../firebase/function'
+import { fetcheducation, update } from '../../../firebase/function'
 type Props = {}
 
 export default function Education({}: Props) {
@@ -90,21 +90,24 @@ export default function Education({}: Props) {
               topnotcher: topnotcher,
               rank: rank,
             }).then(() => {
+              fetchdata()
               alert('Educational Information succesfully updated')
               setform([
                 { 
-                  uid: '',
-                  school: '',
-                  schoolid: '',
-                  sy: '',
-                  highered: false,
-                  course: '',
-                  exam: false,
-                  topnotcher: false,
-                  rank: '',
+                  uid: form[0].uid,
+                  school: form[0].school,
+                  schoolid: form[0].schoolid,
+                  sy: form[0].sy,
+                  highered: form[0].highered,
+                  course: form[0].course,
+                  exam: form[0].exam,
+                  topnotcher: form[0].topnotcher,
+                  rank: form[0].rank,
                 }
             ])
+            update(currentUser?.uid || '')
         })
+        
         } catch (error) {
         console.error('Error updating document:', error);
         }
