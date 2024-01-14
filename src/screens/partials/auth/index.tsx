@@ -34,7 +34,7 @@ export default function Login({}) {
  
  getUserData();
    if(currentUser != null){
-     navigate("/alumni/news");
+     navigate("/alumni/analytics");
    }
    }, [currentUser]);
 
@@ -70,7 +70,7 @@ export default function Login({}) {
         settoast('logging in...')
         await signInWithEmailAndPassword(auth, email, password).then(() => {
           setloading(false)
-          navigate("/alumni/news")
+          navigate("/alumni/analytics")
         }).catch((error: any) => {
           console.log(error)
           if(error == 'FirebaseError: Firebase: Error (auth/invalid-login-credentials).'){
@@ -87,6 +87,13 @@ export default function Login({}) {
       seterror(true)
     }
   }
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === 'Enter') {
+      console.log(event)
+      checkStatus(event);
+    }
+  };
 
   return (
     <div draggable = {false} className="container">
@@ -105,6 +112,7 @@ export default function Login({}) {
             placeholder='email address'
             disabled = {false}
             onChange={(e) => setloginEmail(e.target.value)} 
+            onKeyDown={(e) => handleKeyPress(e)}
           />
           <LoginFields 
             title = 'password'
@@ -114,9 +122,10 @@ export default function Login({}) {
             placeholder='password'
             disabled = {false}
             onChange={(e) => setloginPassword(e.target.value)} 
+            onKeyDown={(e) => handleKeyPress(e)}
           />
           <a>Forgot password?</a>
-          <button onClick={checkStatus}>Login</button>
+          <button  onClick={checkStatus}>Login</button>
           {loading && <p style={{color: error ? 'red' : 'black', fontSize: 12, textAlign: 'center'}}>{toast}</p>}
         </div>
       </div>

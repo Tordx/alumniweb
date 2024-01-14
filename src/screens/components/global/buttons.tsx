@@ -29,3 +29,14 @@ export const CustomButton = ({
 	</>
   )
 }
+
+type TableButtonProps = {
+  onClick: (e: any) => void,
+  title: string,
+}
+
+export const TableButton = ({onClick, title}: TableButtonProps) => {
+  return (
+    <a className='table-button' onClick={onClick}>{title}</a>
+  )
+}

@@ -3,9 +3,9 @@ import { faAdd, faCalendar, faLock } from '@fortawesome/free-solid-svg-icons';
 import Card from 'screens/components/global/card';
 import { LoginFields } from 'screens/components/global/fields';
 import { statusdata } from 'types/interfaces';
-import { updateDoc, doc } from '@firebase/firestore';
+import { updateDoc, doc, addDoc, collection } from '@firebase/firestore';
 import { auth, db } from '../../../firebase/index';
-import { fetcheducation, fetchstatus } from '../../../firebase/function';
+import { fetcheducation, fetchstatus, generateRandomKey } from '../../../firebase/function';
 import { AuthContext } from 'auth';
 
 type Props = {};
@@ -32,7 +32,7 @@ export default function Education({}: Props) {
 
   const updateeducation = async () => {
     const { uid, status } = form[0];
-    
+    const randomID = generateRandomKey(25)
     if (!status) { 
         alert('Confirm your new password');
     } else {
@@ -49,6 +49,11 @@ export default function Education({}: Props) {
               status: status,
             }
           ]);
+        });
+        const updatesCollection = collection(db, 'updates');
+        await addDoc(updatesCollection, {
+          uid: currentUser?.uid || '',
+          update: randomID,
         });
       } catch (error) {
         console.error('Error updating document:', error);

@@ -102,10 +102,17 @@ export interface postdata {
   id: string,
   uid: string,
   time: Date,
-  photo: string,
+  photo: any,
   text: string,
   active: boolean,
-  type: string
+  type: string,
+  school: string,
+}
+
+export interface id {
+  uid: string,
+  update: string,
+  date: string
 }
 
 export interface admindata {

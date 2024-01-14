@@ -3,12 +3,12 @@ import { AuthContext } from 'auth'
 import React, { useContext } from 'react'
 import Card from 'screens/components/global/card'
 import { LoginFields, Select } from 'screens/components/global/fields'
-import Form from 'screens/contents/forms'
+import Form from 'screens/contents/table-buttons'
 import { employmentdata, logindata } from 'types/interfaces'
-import {updateDoc, doc} from '@firebase/firestore'
+import {updateDoc, doc, addDoc, collection} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
-import { fetcheducation, fetchemployment } from '../../../firebase/function'
+import { fetcheducation, fetchemployment, generateRandomKey } from '../../../firebase/function'
 type Props = {}
 
 export default function Employment({}: Props) {
@@ -56,7 +56,7 @@ export default function Employment({}: Props) {
     const updateEmployment = async () => {
 
       const {uid,employee, currentwork, salary, history} = form[0]
-      
+      const randomID = generateRandomKey(25)
       if(employee){ 
           alert('Please confirm employment status')
       } else {
@@ -94,6 +94,11 @@ export default function Employment({}: Props) {
              ])
             fetchdata()
         })
+        const updatesCollection = collection(db, 'updates');
+        await addDoc(updatesCollection, {
+          uid: currentUser?.uid || '',
+          update: randomID,
+        });
         } catch (error) {
         console.error('Error updating document:', error);
         }
@@ -122,7 +127,7 @@ export default function Employment({}: Props) {
                     },
                     ])}
                   }
-                  placeholder= 'Emplpoyment Status' 
+                  placeholder= 'Employment Status' 
                   value= {form[0].employee} 
             />
                 <LoginFields

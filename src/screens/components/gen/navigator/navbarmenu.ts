@@ -1,16 +1,21 @@
 const Navbarmenu = [
     {
         id: 1,
+        title: 'Analytics',
+        path: '/alumni/analytics'
+    },
+    {
+        id: 2,
         title: 'News',
         path: '/alumni/news'
     },
     {
-        id: 2,
+        id: 3,
         title: 'Events',
         path: '/alumni/events'
     },
     {
-        id: 3,
+        id: 4,
         title: 'Activities',
         path: '/alumni/activities'
     }

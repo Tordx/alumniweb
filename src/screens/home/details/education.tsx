@@ -3,12 +3,12 @@ import { AuthContext } from 'auth'
 import React from 'react'
 import Card from 'screens/components/global/card'
 import { LoginFields, Select } from 'screens/components/global/fields'
-import Form from 'screens/contents/forms'
+import Form from 'screens/contents/table-buttons'
 import { educationdata, logindata } from 'types/interfaces'
-import {updateDoc, doc} from '@firebase/firestore'
+import {updateDoc, doc, addDoc, collection} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
-import { fetcheducation } from '../../../firebase/function'
+import { fetcheducation, generateRandomKey } from '../../../firebase/function'
 type Props = {}
 
 export default function Education({}: Props) {
@@ -74,7 +74,7 @@ export default function Education({}: Props) {
     const updateeducation = async () => {
 
       const {uid, school, schoolid, sy,highered, course, exam, topnotcher, rank } = form[0]
-      
+      const randomID = generateRandomKey(25)
       if(!school && !schoolid && !sy){ 
           alert('Confirm your new password')
       } else {
@@ -105,6 +105,11 @@ export default function Education({}: Props) {
                 }
             ])
         })
+        const updatesCollection = collection(db, 'updates');
+        await addDoc(updatesCollection, {
+          uid: currentUser?.uid || '',
+          update: randomID,
+        });
         } catch (error) {
         console.error('Error updating document:', error);
         }

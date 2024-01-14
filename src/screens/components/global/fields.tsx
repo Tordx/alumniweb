@@ -6,11 +6,13 @@ type Props = {
 	icon?: IconDefinition,
 	placeholder: string,
 	value: string,
-	onChange: (e: any) => void,
+	onChange?: (e: any) => void,
+	onClick?: (e: any) => void,
 	disabled: boolean,
 	color?: string,
 	title?: string,
 	type?: string,
+	onKeyDown?: (e: any) => void,
 	
 }
 
@@ -22,14 +24,18 @@ export const LoginFields = ({
 		onChange, 
 		value, 
 		placeholder,
-		type
+		type,
+		onClick,
+		onKeyDown
+		
 	}: Props) => {
 
   return (
 	<>
 	{title && <p className='header-title'>{title}</p>}
-    <div className='global-input'>
+    <div onClick={onClick} className='global-input'>
 			<input
+				onKeyDown={onKeyDown}
 				type={type || 'text'}
 				disabled  = {disabled}
 				onChange={onChange} 
@@ -77,4 +83,29 @@ export const  Select = ({
   )
 }
 
+export const TextField = ({
+	title,
+	color,
+	disabled, 
+	icon, 
+	onChange, 
+	value, 
+	placeholder,
+	type
+}: Props) => {
 
+return (
+<>
+{title && <p className='header-title'>{title}</p>}
+<div className='text-input'>
+		<textarea
+			disabled  = {disabled}
+			onChange={onChange} 
+			value = {value} 
+			placeholder={placeholder}
+			color='#8FABD3'
+			/>
+</div>
+</>
+)
+}

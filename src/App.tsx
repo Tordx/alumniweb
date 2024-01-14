@@ -17,6 +17,8 @@ import Employment from 'screens/home/details/employment';
 import Personal from 'screens/home/details/personal';
 import Status from 'screens/home/details/status';
 import Logout from 'screens/partials/auth/logout';
+import { Analytics } from 'screens/home/analytics';
+import Table from 'screens/home/table';
 
 
 //**NOTE**(((((ONLY USE TSRFC WHEN CREATING NEW SCREENS)))))**NOTE**/
@@ -44,6 +46,8 @@ const App: React.FC = () => {
           <Route path='logout' element = {<Logout/>} />
         </Route>
         <Route path = "alumni">
+          <Route path = 'table' index element = {<ProtectedRoute><Table/></ProtectedRoute>}/>
+          <Route  path="analytics" index element={ <ProtectedRoute><Analytics/></ProtectedRoute>}/>
           <Route  path="events" index element={ <ProtectedRoute><Events/></ProtectedRoute>}/>
           <Route  path="activities" index element={ <ProtectedRoute><Activities/></ProtectedRoute>}/>
           <Route path='news' index element={ <ProtectedRoute><News/></ProtectedRoute>}/>

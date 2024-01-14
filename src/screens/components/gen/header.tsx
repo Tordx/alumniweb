@@ -81,7 +81,7 @@ export const Header: React.FC<Props> = ({menu}) => {
       </div>
       {dropdownVisible && (
         <div className="dropdown-menu">
-          <p>{user[0].name}</p>
+          <p>{user[0]?.name}</p>
           <h5>Batch {education}</h5>
           <CustomButton onClick={() => setDropdownVisible(false)} title='Personal Details' icon = {faUser} to = '/alumni/personal' />
           <CustomButton onClick={() => setDropdownVisible(false)} title='Educational Details' icon = {faUser} to = '/alumni/education' />
