@@ -18,7 +18,7 @@ export default function Activities({}: Props) {
       setdata(filterResult)
     }
     getdata()
-  },[])
+  },[selectedschool])
 
   const selectSchool = (item: string) => {
     setselectedschool(item)

@@ -17,7 +17,7 @@ export default function Events({}: Props) {
       setdata(filterResult)
     }
     getdata()
-  },[])
+  },[selectedschool])
 
   const selectSchool = (item: string) => {
     setselectedschool(item)
