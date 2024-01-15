@@ -73,3 +73,36 @@
     padding-bottom: 20px;
 
 }
+
+.school-select-container {
+    margin: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+.school-select {
+    background-color: #2F5288;
+    color: #fff;
+    width: 125px;
+    margin: 10px;
+    padding: 10px 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+
+}
+
+.unselected {
+    background-color: #ffff;
+    color: #2F5288;
+    width: 125px;
+    margin: 10px;
+    padding: 10px 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+}

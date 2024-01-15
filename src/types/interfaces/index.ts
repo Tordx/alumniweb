@@ -106,6 +106,7 @@ export interface postdata {
   text: string,
   active: boolean,
   type: string
+  school: string,
 }
 
 export interface admindata {

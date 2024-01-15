@@ -15,7 +15,8 @@ export const fetchdata = async(data: string) => {
         photo: doc.data().photo,
         text: doc.data().text,
         active: doc.data().active,
-        type: doc.data().type
+        type: doc.data().type,
+        school: doc.data().school
       })
     })
 
