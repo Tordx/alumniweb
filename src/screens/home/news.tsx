@@ -4,6 +4,8 @@ import { Header } from 'screens/components/gen/header'
 import Navbarmenu from 'screens/components/gen/navigator/navbarmenu'
 import { postdata } from '../../types/interfaces'
 import Data from 'screens/contents/data'
+import {onSnapshot,collection, setDoc, doc} from '@firebase/firestore'
+import { db } from '../../firebase/index'
 
 type Props = {}
 
@@ -12,13 +14,28 @@ export default function News({}: Props) {
   const [selectedschool, setselectedschool] = React.useState('KNHS')
   const schools = ['KNHS', 'SCNHS']
   React.useEffect(() => {
-    const getdata = async() => {
-      const result: postdata[] = await fetchdata('post') || [];
-      const filterResult = result.filter((item) => item.type == 'news' && item.active === true && item.school === selectedschool)
-      setdata(filterResult)
-    }
-    getdata()
-  },[selectedschool])
+    const unsubscribe = onSnapshot(collection(db, 'post'), (snapshot) => {
+      const result: postdata[] = [];
+      snapshot.forEach((doc) => {
+        const postData = doc.data();
+        if (postData.active === true && postData.type === 'news' && postData.school === selectedschool) {
+          result.push({
+            uid: postData.uid,
+            id: postData.postid,
+            time: postData.time,
+            photo: postData.photo,
+            text: postData.text,
+            active: postData.active,
+            type: postData.type,
+            school: postData.school,
+          });
+        }
+      });
+      setdata(result);
+    });
+
+    return () => unsubscribe();
+  }, [selectedschool]);
 
   const selectSchool = (item: string) => {
     setselectedschool(item)

@@ -3,7 +3,8 @@ import React, { useEffect } from 'react'
 import Card from 'screens/components/global/card'
 import Data from 'screens/contents/data'
 import { postdata } from 'types/interfaces'
-
+import {onSnapshot,collection, setDoc, doc} from '@firebase/firestore'
+import { db } from '../../firebase/index'
 type Props = {}
 
 export default function Activities({}: Props) {
@@ -12,13 +13,28 @@ export default function Activities({}: Props) {
   const [selectedschool, setselectedschool] = React.useState('KNHS')
   const schools = ['KNHS', 'SCNHS']
   React.useEffect(() => {
-    const getdata = async() => {
-      const result: postdata[] = await fetchdata('post') || [];
-      const filterResult = result.filter((item) => item.type == 'activities' && item.active === true && item.school === selectedschool)
-      setdata(filterResult)
-    }
-    getdata()
-  },[selectedschool])
+    const unsubscribe = onSnapshot(collection(db, 'post'), (snapshot) => {
+      const result: postdata[] = [];
+      snapshot.forEach((doc) => {
+        const postData = doc.data();
+        if (postData.active === true && postData.type === 'activities' && postData.school === selectedschool) {
+          result.push({
+            uid: postData.uid,
+            id: postData.postid,
+            time: postData.time,
+            photo: postData.photo,
+            text: postData.text,
+            active: postData.active,
+            type: postData.type,
+            school: postData.school,
+          });
+        }
+      });
+      setdata(result);
+    });
+
+    return () => unsubscribe();
+  }, [selectedschool]);
 
   const selectSchool = (item: string) => {
     setselectedschool(item)
