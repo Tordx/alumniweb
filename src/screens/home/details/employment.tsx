@@ -37,11 +37,12 @@ export default function Employment({}: Props) {
 
     const fetchdata = async() => {
       const result: employmentdata[] = await fetchemployment(currentUser?.uid || '') || []
-        setform([{ 
-          uid: result[0].uid || '',
-          employee: result[0].employee || '',
-          currentwork: result[0].currentwork || '',
-          salary: result[0].salary || '',
+      console.log(result) 
+      setform([{ 
+          uid: result[0].uid,
+          employee: result[0].employee,
+          currentwork: result[0].currentwork,
+          salary: result[0].salary,
           history: {
             uid: result[0].history.uid || '',
             work: result[0].history.work || '',
@@ -55,28 +56,37 @@ export default function Employment({}: Props) {
 
     const updateEmployment = async () => {
 
-      const {uid,employee, currentwork, salary, history} = form[0]
-      
-      if(employee){ 
+      if(form[0].employee  === ''){ 
           alert('Please confirm employment status')
       } else {
         try {
-
-          const personalRef = doc(db, 'user', currentUser?.uid || '');
-            await updateDoc(personalRef, {
-              uid: uid,
-              employee: employee,
-              currentwork: currentwork,
-              salary: salary,
+          console.log(JSON.stringify({
+            employee: form[0].employee,
+              currentwork: form[0].currentwork,
+              salary: form[0].salary,
               history: {
-                uid: history.uid,
-                work: history.work,
-                yearstart: history.yearstart,
-                yearend: history.yearend,
-                current: history.current,
+                uid: form[0].history.uid,
+                work: form[0].history.work,
+                yearstart:form[0]. history.yearstart,
+                yearend: form[0].history.yearend,
+                current:form[0]. history.current,
               },
-            }).then(() => {
-
+          }))
+          const personalRef = doc(db, 'user', currentUser?.uid || form[0].uid);
+            await updateDoc(personalRef, {
+              employee: form[0].employee,
+              currentwork: form[0].currentwork,
+              salary: form[0].salary,
+              history: {
+                uid: form[0].history.uid,
+                work: form[0].history.work,
+                yearstart:form[0]. history.yearstart,
+                yearend: form[0].history.yearend,
+                current:form[0]. history.current,
+              },
+            }).then((res: any) => {
+              console.log(res)
+            update(currentUser?.uid || form[0].uid)
             fetchdata()
               alert('Employment Information succesfully updated')
               setform([
@@ -94,7 +104,6 @@ export default function Employment({}: Props) {
                   }
                 }
              ])
-            update(currentUser?.uid || '')
         })
         } catch (error) {
         console.error('Error updating document:', error);

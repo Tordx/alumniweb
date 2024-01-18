@@ -91,9 +91,9 @@ export const fetchdata = async(data: string) => {
           thisdata.push({
           uid: doc.data().uid,
           employee: doc.data().employee,
-          currentwork: doc.data().current,
+          currentwork: doc.data().currentwork,
           salary: doc.data().salary,
-          history: doc.data().uid, 
+          history: doc.data().history, 
         })
       })
       return thisdata
@@ -142,6 +142,8 @@ export const fetchdata = async(data: string) => {
       date: new Date(),
       uid: uid,
       update: id,
+    }).then(() => {
+      console.log('updated')
     })
     } catch(error) {
       console.log(error)
