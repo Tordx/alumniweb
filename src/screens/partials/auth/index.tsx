@@ -11,6 +11,7 @@ import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 export default function Login({}) {
 
   const [loginemail, setloginEmail] = useState('');
+  const [username, setusername] = useState('');
   const [loginpassword, setloginPassword] = useState('');
   const { currentUser } = useContext(AuthContext);
   const [toast, settoast] = useState('');
@@ -47,7 +48,7 @@ export default function Login({}) {
     const userData: logindata[] = [];
   
     querySnapshot.forEach((doc) => {
-      if (doc.data().email === loginemail) {
+      if (doc.data().username === username) {
         userData.push({
             uid: doc.data().uid,
             username: doc.data().username,
@@ -55,17 +56,18 @@ export default function Login({}) {
             newpassword: doc.data().newpassword,
             confirmpassword: doc.data().confirmpassword,
             type: doc.data().type,
+            email: doc.data().email,
             
         });
       }
     });
-    
+    console.log(userData)
     if (userData.length > 0) {
       settoast('verifying credentials...')
       const isAdmin = userData.some((user) => user.type === "alumni");
       console.log(isAdmin);
       if (isAdmin) {
-        const email = loginemail;
+        const email = userData[0].email;
         const password = loginpassword;
         settoast('logging in...')
         await signInWithEmailAndPassword(auth, email, password).then(() => {
@@ -99,12 +101,13 @@ export default function Login({}) {
           </span>
           <h1>Login to your Account</h1>
           <LoginFields 
-            title = 'email address'
+            title = 'Username'
+            type='text'
             icon = {faUser}
-            value={loginemail}
-            placeholder='email address'
+            value={username}
+            placeholder='username'
             disabled = {false}
-            onChange={(e) => setloginEmail(e.target.value)} 
+            onChange={(e) => setusername(e.target.value)} 
           />
           <LoginFields 
             title = 'password'

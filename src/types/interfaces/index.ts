@@ -74,6 +74,7 @@ export interface employmentdata {
 export interface logindata {
 
   uid: string,
+  email: string,
   username: string,
   password: string,
   newpassword: string,

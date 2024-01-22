@@ -21,7 +21,9 @@ export default function Account({}: Props) {
         password: '',
         newpassword: '',
         confirmpassword: '',
-        type: '',}
+        type: '',
+        email: '',
+      }
     ])
 
     const updateaccount = async () => {
@@ -41,7 +43,9 @@ export default function Account({}: Props) {
                      password: '',
                      newpassword: '',
                      confirmpassword: '',
-                     type: '',}
+                     type: '',
+                     email: '',
+                    }
                  ])
                  update(currentUser?.uid || '')
             })
