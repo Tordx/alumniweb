@@ -11,7 +11,7 @@ import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 export default function Login({}) {
 
   const [loginemail, setloginEmail] = useState('');
-  const [username, setusername] = useState('');
+  const [schoolid, setschoolid] = useState('');
   const [loginpassword, setloginPassword] = useState('');
   const { currentUser } = useContext(AuthContext);
   const [toast, settoast] = useState('');
@@ -48,7 +48,7 @@ export default function Login({}) {
     const userData: logindata[] = [];
   
     querySnapshot.forEach((doc) => {
-      if (doc.data().username === username) {
+      if (doc.data().schoolid === schoolid) {
         userData.push({
             uid: doc.data().uid,
             username: doc.data().username,
@@ -57,6 +57,7 @@ export default function Login({}) {
             confirmpassword: doc.data().confirmpassword,
             type: doc.data().type,
             email: doc.data().email,
+            schoolid: doc.data().schoolid,
             
         });
       }
@@ -95,19 +96,15 @@ export default function Login({}) {
       <img draggable = {false} src="https://i.imgur.com/mzylrqX.png" alt="Your Image"/>
       <div className="image-overlay">
         <div className='login-box'>
-          <span className='image-container'>
-            <img className='logo' src ='https://i.imgur.com/4ywrjZF.png' />
-            <img className='logo'  src='https://i.imgur.com/5CH306W.png'/>
-          </span>
           <h1>Login to your Account</h1>
           <LoginFields 
-            title = 'Username'
+            title = 'School ID'
             type='text'
             icon = {faUser}
-            value={username}
-            placeholder='username'
+            value={schoolid}
+            placeholder='e.g 123-SY-1233'
             disabled = {false}
-            onChange={(e) => setusername(e.target.value)} 
+            onChange={(e) => setschoolid(e.target.value)} 
           />
           <LoginFields 
             title = 'password'

@@ -23,6 +23,7 @@ export default function Account({}: Props) {
         confirmpassword: '',
         type: '',
         email: '',
+        schoolid: '',
       }
     ])
 
@@ -45,6 +46,7 @@ export default function Account({}: Props) {
                      confirmpassword: '',
                      type: '',
                      email: '',
+                     schoolid: '',
                     }
                  ])
                  update(currentUser?.uid || '')

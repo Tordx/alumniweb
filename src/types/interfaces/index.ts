@@ -75,6 +75,7 @@ export interface logindata {
 
   uid: string,
   email: string,
+  schoolid: string,
   username: string,
   password: string,
   newpassword: string,

@@ -17,6 +17,7 @@ import Employment from 'screens/home/details/employment';
 import Personal from 'screens/home/details/personal';
 import Status from 'screens/home/details/status';
 import Logout from 'screens/partials/auth/logout';
+import { PublicHeader } from 'screens/components/gen/publicheader';
 
 
 //**NOTE**(((((ONLY USE TSRFC WHEN CREATING NEW SCREENS)))))**NOTE**/
@@ -26,27 +27,28 @@ const App: React.FC = () => {
 
   const ProtectedRoute: React.FC<children> = ({ children }) => {
     if (currentUser === null) {
-      return <Navigate to="/login" />;
+      return <Navigate to="/alumni/news" />;
     }
 
     return children
   };
   return (
     <BrowserRouter>
-      {currentUser && <Header menu={Navbarmenu} />}
+      {currentUser ? <Header menu={Navbarmenu} /> : <PublicHeader menu={Navbarmenu}  />}
       
       <Routes>
        <Route  path="/">
           <Route path="login" element={<Login/>} />
           <Route path="forgotpassword" element={<ForgotPassword/>} />
           <Route path='*' element={<Error/>} />
-          <Route index element = {<Login/>}/>
+          <Route index element = {<News/>}/>
           <Route path='logout' element = {<Logout/>} />
+          
         </Route>
         <Route path = "alumni">
-          <Route  path="events" index element={ <ProtectedRoute><Events/></ProtectedRoute>}/>
-          <Route  path="activities" index element={ <ProtectedRoute><Activities/></ProtectedRoute>}/>
-          <Route path='news' index element={ <ProtectedRoute><News/></ProtectedRoute>}/>
+          <Route  path="events" index element={<Events/>}/>
+          <Route  path="activities" index element={<Activities/>}/>
+          <Route path='news' index element={<News/>}/>
           <Route path='account' index element={ <ProtectedRoute><Account/></ProtectedRoute>}/>
           <Route path='education' index element={ <ProtectedRoute><Education/></ProtectedRoute>}/>
           <Route path='employment' index element={ <ProtectedRoute><Employment/></ProtectedRoute>}/>
