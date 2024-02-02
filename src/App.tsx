@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet, Link } from "react-router-dom";
 import './App.css';
 import { AuthContext } from 'auth';
@@ -18,12 +18,14 @@ import Personal from 'screens/home/details/personal';
 import Status from 'screens/home/details/status';
 import Logout from 'screens/partials/auth/logout';
 import { PublicHeader } from 'screens/components/gen/publicheader';
+import NewsLetter from 'screens/components/global/newsletter';
 
 
 //**NOTE**(((((ONLY USE TSRFC WHEN CREATING NEW SCREENS)))))**NOTE**/
 
 const App: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
+  const [isOpen, setIsIOpen] = useState(false);
 
   const ProtectedRoute: React.FC<children> = ({ children }) => {
     if (currentUser === null) {
@@ -32,10 +34,24 @@ const App: React.FC = () => {
 
     return children
   };
+
+  React.useEffect(() => {
+    newsLetter()
+  },[])
+
+  const newsLetter = async() => {
+    const saved: string = localStorage.getItem('newsletter') || '';
+    console.log(saved)
+    if(saved == '') {
+      setIsIOpen(true)
+    } else {
+      return
+    }
+  }
   return (
     <BrowserRouter>
       {currentUser ? <Header menu={Navbarmenu} /> : <PublicHeader menu={Navbarmenu}  />}
-      
+      {isOpen && <NewsLetter isOpen = {isOpen} onClose={() => setIsIOpen(false)} />}
       <Routes>
        <Route  path="/">
           <Route path="login" element={<Login/>} />

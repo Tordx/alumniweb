@@ -45,6 +45,50 @@
   color: #ECF1F7;
 }
 
+.newsletter-input {
+  border: 1px solid #8FABD3;
+  border-radius: 5px;
+  width: 500px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 5px;
+  text-decoration: none;
+}
+
+.newsletter-input select {
+width: 100%;
+border: none;
+outline: none;
+appearance: none; /* Remove the default arrow in some browsers */
+-webkit-appearance: none; /* Remove the default arrow in WebKit/Blink browsers */
+-moz-appearance: none; /* Remove the default arrow in Firefox */
+padding-right: 1em; /* Add some padding to compensate for the removal of the arrow */
+}
+
+.newsletter-input input {
+
+  width: 100%;
+  font-size: 25px;
+}
+.newsletter-input input::placeholder {
+  color: #8FABD3; 
+}
+.newsletter-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 20px;
+
+}
+.newsletter-wrapper button {
+  font-size: 22px;
+  font-weight: bold;
+}
 .global-input {
     border: 1px solid #8FABD3;
     border-radius: 5px;

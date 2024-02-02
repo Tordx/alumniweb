@@ -29,7 +29,20 @@ export default function Events({}: Props) {
           });
         }
       });
-      setdata(result);
+      const sortedResult = result.sort((a: postdata, b: postdata) => {
+        const getTime = (timestamp: any): number => {
+            const dateObject = timestamp && timestamp.toDate();
+            return dateObject ? dateObject.getTime() : 0;
+        };
+    
+        const timeA = getTime(b.time);
+        const timeB = getTime(a.time);
+    
+        return timeA - timeB;
+      });
+    
+      console.log(sortedResult)
+      setdata(sortedResult)
     });
 
     return () => unsubscribe();
