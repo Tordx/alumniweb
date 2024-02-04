@@ -40,11 +40,15 @@ const App: React.FC = () => {
   },[])
 
   const newsLetter = async() => {
+    console.log('this is where website ask you for newsletter')
     const saved: string = localStorage.getItem('newsletter') || '';
     console.log(saved)
     if(saved == '') {
+      console.log('newsletter unsubscribed')
       setIsIOpen(true)
     } else {
+
+      console.log('newsletter subscribed')
       return
     }
   }
