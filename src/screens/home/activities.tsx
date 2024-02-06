@@ -1,16 +1,18 @@
-import { fetchdata } from '../../firebase/function'
-import React, { useEffect } from 'react'
+import { fetchdata, fetcheducation } from '../../firebase/function'
+import React, { useContext, useEffect } from 'react'
 import Card from 'screens/components/global/card'
 import Data from 'screens/contents/data'
-import { postdata } from 'types/interfaces'
+import { educationdata, postdata } from 'types/interfaces'
 import {onSnapshot,collection, setDoc, doc} from '@firebase/firestore'
 import { db } from '../../firebase/index'
+import { AuthContext } from 'auth'
 type Props = {}
 
 export default function Activities({}: Props) {
 
   const [data, setdata] = React.useState<postdata[]>([])
   const [selectedschool, setselectedschool] = React.useState('KNHS')
+  const {currentUser} = useContext(AuthContext)
   const schools = ['KNHS', 'SCNHS']
   React.useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'post'), (snapshot) => {
@@ -49,6 +51,20 @@ export default function Activities({}: Props) {
     return () => unsubscribe();
   }, [selectedschool]);
 
+  React.useEffect(() => {
+    console.log('uy')
+    const getUser = async() => {
+      if(currentUser != null){
+        const result: educationdata[] = await fetcheducation(currentUser?.uid) || [];
+        const mapSchool: string = result[0].school
+      
+        setselectedschool(mapSchool)
+        console.log('meron: ',mapSchool)
+      } 
+    }
+    getUser()
+  },[currentUser?.uid])
+
   const selectSchool = (item: string) => {
     setselectedschool(item)
   }
@@ -60,7 +76,7 @@ export default function Activities({}: Props) {
       <div className="image-overlay">
         <div style = {{position: 'absolute', top: '13%'}}>
         <div className='school-select-container'>
-          {schools && schools.map((item, index) => 
+          {!currentUser?.uid  && schools.map((item, index) => 
             <a
               onClick={() => selectSchool(item)}
               className={selectedschool === item ? 'school-select' : 'unselected'}

@@ -1,17 +1,20 @@
-import { fetchdata } from '../../firebase/function'
-import React from 'react'
+import { fetchdata, fetcheducation } from '../../firebase/function'
+import React, { useContext } from 'react'
 import { Header } from 'screens/components/gen/header'
 import Navbarmenu from 'screens/components/gen/navigator/navbarmenu'
-import { postdata } from '../../types/interfaces'
+import { educationdata, postdata } from '../../types/interfaces'
 import Data from 'screens/contents/data'
 import {onSnapshot,collection, setDoc, doc} from '@firebase/firestore'
 import { db } from '../../firebase/index'
+import { AuthContext } from 'auth'
 
 type Props = {}
 
 export default function News({}: Props) {
   const [data, setdata] = React.useState<postdata[]>([])
   const [selectedschool, setselectedschool] = React.useState('KNHS')
+  const {currentUser} = useContext(AuthContext)
+
   const schools = ['KNHS', 'SCNHS']
   React.useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'post'), (snapshot) => {
@@ -50,6 +53,20 @@ export default function News({}: Props) {
     return () => unsubscribe();
   }, [selectedschool]);
 
+  React.useEffect(() => {
+    console.log('uy')
+    const getUser = async() => {
+      if(currentUser != null){
+        const result: educationdata[] = await fetcheducation(currentUser?.uid) || [];
+        const mapSchool: string = result[0].school
+      
+        setselectedschool(mapSchool)
+        console.log('meron: ',mapSchool)
+      } 
+    }
+    getUser()
+  },[currentUser?.uid])
+
   const selectSchool = (item: string) => {
     setselectedschool(item)
   }
@@ -59,7 +76,7 @@ export default function News({}: Props) {
       <div className="image-overlay">
         <div style = {{position: 'absolute', top: '13%'}}>
         <div className='school-select-container'>
-          {schools && schools.map((item, index) => 
+          {!currentUser?.uid  && schools.map((item, index) => 
             <a
               onClick={() => selectSchool(item)}
               className={selectedschool === item ? 'school-select' : 'unselected'}
