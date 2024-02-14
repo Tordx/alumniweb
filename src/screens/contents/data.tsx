@@ -15,6 +15,7 @@ type Props = {
 
 export default function Data({data}: Props) {
 
+
 	const [userdata, setuserdata] = React.useState<admindata[]>([])
 	const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -37,6 +38,7 @@ export default function Data({data}: Props) {
 					displayName: doc.data().displayName,
 					email: doc.data().email,
         });
+
 				setuserdata(userData)
       }
     });
@@ -54,8 +56,8 @@ export default function Data({data}: Props) {
 				<div className='data-container'>
 					<div className='data-header'>
 						<p>
-							{userdata[0]?.displayName}
-							data
+							{userdata[0]?.displayName} 
+							
 						</p>
 						<TimeAgo style={{fontSize: 12, marginTop: -13, color: '#8FABD3'}} date = {formatEpochMilliseconds(data.time)} />
 					</div>

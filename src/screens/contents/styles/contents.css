@@ -115,3 +115,37 @@
     cursor: pointer;
     border-radius: 10px;
 }
+
+.contacts {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    display: flex;
+}
+
+.contacts-container {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contacts-container h1 {
+    color: #2F5288;
+}
+
+.contacts-container p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+    color: #2F5288;
+}
+
+.contacts-container h5 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-block-end: 5px;
+    margin-block-start: 0px;
+}

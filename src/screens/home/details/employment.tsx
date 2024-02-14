@@ -5,7 +5,7 @@ import Card from 'screens/components/global/card'
 import { LoginFields, Select } from 'screens/components/global/fields'
 import Form from 'screens/contents/forms'
 import { employmentdata, logindata } from 'types/interfaces'
-import {updateDoc, doc} from '@firebase/firestore'
+import {updateDoc, doc, setDoc} from '@firebase/firestore'
 import { auth, db } from '../../../firebase/index'
 import { User, updatePassword } from 'firebase/auth'
 import { fetcheducation, fetchemployment, update } from '../../../firebase/function'
@@ -55,36 +55,23 @@ export default function Employment({}: Props) {
     }
 
     const updateEmployment = async () => {
-
+      const {employee, currentwork, salary, history} = form[0]
       if(form[0].employee  === ''){ 
           alert('Please confirm employment status')
       } else {
         try {
-          console.log(JSON.stringify({
-            employee: form[0].employee,
-              currentwork: form[0].currentwork,
-              salary: form[0].salary,
-              history: {
-                uid: form[0].history.uid,
-                work: form[0].history.work,
-                yearstart:form[0]. history.yearstart,
-                yearend: form[0].history.yearend,
-                current:form[0]. history.current,
-              },
-          }))
+          
           const personalRef = doc(db, 'user', currentUser?.uid || form[0].uid);
-            await updateDoc(personalRef, {
-              employee: form[0].employee,
-              currentwork: form[0].currentwork,
-              salary: form[0].salary,
-              history: {
-                uid: form[0].history.uid,
-                work: form[0].history.work,
-                yearstart:form[0]. history.yearstart,
-                yearend: form[0].history.yearend,
-                current:form[0]. history.current,
-              },
-            }).then((res: any) => {
+
+            const employmentData = {
+              ...( employee && { employee }),
+              ...( currentwork&& { currentwork }),
+              ...( salary && { salary }),
+              ...( history&& { history }),
+
+            }
+
+            await setDoc(personalRef,employmentData).then((res: any) => {
               console.log(res)
             update(currentUser?.uid || form[0].uid)
             fetchdata()

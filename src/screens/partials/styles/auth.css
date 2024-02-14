@@ -46,8 +46,7 @@
 }
 
 .login-box button {
-	position: absolute;
-	bottom: 50px;
+	margin-top: 50px;
 
 }
 .errorwrapper {

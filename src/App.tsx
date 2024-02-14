@@ -19,6 +19,7 @@ import Status from 'screens/home/details/status';
 import Logout from 'screens/partials/auth/logout';
 import { PublicHeader } from 'screens/components/gen/publicheader';
 import NewsLetter from 'screens/components/global/newsletter';
+import Emailer from 'screens/contents/emailer';
 
 
 //**NOTE**(((((ONLY USE TSRFC WHEN CREATING NEW SCREENS)))))**NOTE**/
@@ -55,7 +56,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       {currentUser ? <Header menu={Navbarmenu} /> : <PublicHeader menu={Navbarmenu}  />}
-      {isOpen && <NewsLetter isOpen = {isOpen} onClose={() => setIsIOpen(false)} />}
+      {isOpen && currentUser && <NewsLetter isOpen = {isOpen} onClose={() => setIsIOpen(false)} />}
       <Routes>
        <Route  path="/">
           <Route path="login" element={<Login/>} />
@@ -63,6 +64,7 @@ const App: React.FC = () => {
           <Route path='*' element={<Error/>} />
           <Route index element = {<News/>}/>
           <Route path='logout' element = {<Logout/>} />
+          <Route path='contactus' element = {<Emailer/>} />
           
         </Route>
         <Route path = "alumni">

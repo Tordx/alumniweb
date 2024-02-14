@@ -79,7 +79,10 @@ export default function Login({}) {
           if(error == 'FirebaseError: Firebase: Error (auth/invalid-login-credentials).'){
           settoast('email and password did not matched.')
           seterror(true)
-        }
+          } else if(error == 'Firebase: Error (auth/missing-email)'){
+            settoast('account does not exists')
+            seterror(true)
+          }
         })
       } else {
         settoast('The provided email used in a non-user account')

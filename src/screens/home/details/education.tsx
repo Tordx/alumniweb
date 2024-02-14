@@ -72,47 +72,50 @@ export default function Education({}: Props) {
     // };
 
     const updateeducation = async () => {
-
-      const {uid, school, schoolid, sy,highered, course, exam, topnotcher, rank } = form[0]
-      
-      if(!school && !schoolid && !sy){ 
-          alert('Confirm your new password')
+      const { uid, school, schoolid, sy, highered, course, exam, topnotcher, rank } = form[0];
+  
+      // Check if any required fields are blank
+      if (!school && !schoolid && !sy) {
+          alert('Please fill in the required fields');
       } else {
-        try {
-          const educationRef = doc(db, 'user', currentUser?.uid || '');
-            await updateDoc(educationRef, {
-              school: school,
-              schoolid: schoolid,
-              sy: sy,
-              highered: highered,
-              course: course,
-              exam: exam,
-              topnotcher: topnotcher,
-              rank: rank,
-            }).then(() => {
-              fetchdata()
-              alert('Educational Information succesfully updated')
+          try {
+              const educationRef = doc(db, 'user', currentUser?.uid || '');
+  
+              // Construct the data object with non-blank fields
+              const dataToUpdate = {
+                  ...(school && { school }),
+                  ...(schoolid && { schoolid }),
+                  ...(sy && { sy }),
+                  ...(highered && { highered }),
+                  ...(course && { course }),
+                  ...(exam && { exam }),
+                  ...(topnotcher && { topnotcher }),
+                  ...(rank && { rank }),
+              };
+  
+              await updateDoc(educationRef, dataToUpdate);
+              fetchdata();
+              alert('Educational Information successfully updated');
               setform([
-                { 
-                  uid: form[0].uid,
-                  school: form[0].school,
-                  schoolid: form[0].schoolid,
-                  sy: form[0].sy,
-                  highered: form[0].highered,
-                  course: form[0].course,
-                  exam: form[0].exam,
-                  topnotcher: form[0].topnotcher,
-                  rank: form[0].rank,
-                }
-            ])
-            update(currentUser?.uid || '')
-        })
-        
-        } catch (error) {
-        console.error('Error updating document:', error);
-        }
-      } 
-    };
+                  {
+                      uid: form[0].uid,
+                      school: form[0].school,
+                      schoolid: form[0].schoolid,
+                      sy: form[0].sy,
+                      highered: form[0].highered,
+                      course: form[0].course,
+                      exam: form[0].exam,
+                      topnotcher: form[0].topnotcher,
+                      rank: form[0].rank,
+                  }
+              ]);
+              update(currentUser?.uid || '');
+          } catch (error) {
+              console.error('Error updating document:', error);
+          }
+      }
+  };
+  
 
   return (
     <div className='container'>
@@ -122,34 +125,6 @@ export default function Education({}: Props) {
             <div className='form-container'>
 
             <h1>Educational Details</h1>
-                <Select
-                    selection={['Kalamansig NHS', 'Santa Maria NHS']}
-                    title = 'Did You pursue higher Education'
-                    icon = {faChevronRight}
-                    onChange={(e) => {
-                      setform((prev) => [
-                      {
-                        ...prev[0],
-                        school: e.target.value,
-                      },
-                      ])}
-                    }
-                    placeholder= 'Select SHS Graduated' 
-                    value= {form[0].school} 
-                />
-                <LoginFields
-                    title='ID Number*'
-                    icon = {faIdCard}
-                    disabled = {false}
-                    onChange={(e) => setform((prev) => [
-                        {
-                          ...prev[0],
-                          schoolid: e.target.value,
-                        },
-                      ])}
-                    placeholder= 'ID number' 
-                    value= {form[0].schoolid} 
-                />
                 <LoginFields
                     title = 'Batch/Year Graduated'
                     icon = {faCalendarAlt}
@@ -169,6 +144,7 @@ export default function Education({}: Props) {
                     icon = {faChevronRight}
                     onChange={(e) => {
                       const selected = e.target.value == 'Yes' ? true: false
+                      console.log(selected)
                       setform((prev) => [
                       {
                         ...prev[0],

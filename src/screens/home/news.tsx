@@ -12,16 +12,14 @@ type Props = {}
 
 export default function News({}: Props) {
   const [data, setdata] = React.useState<postdata[]>([])
-  const [selectedschool, setselectedschool] = React.useState('KNHS')
   const {currentUser} = useContext(AuthContext)
 
-  const schools = ['KNHS', 'SCNHS']
   React.useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'post'), (snapshot) => {
       const result: postdata[] = [];
       snapshot.forEach((doc) => {
         const postData = doc.data();
-        if (postData.active === true && postData.type === 'news' && postData.school === selectedschool) {
+        if (postData.active === true && postData.type === 'news') {
           result.push({
             uid: postData.uid,
             id: postData.postid,
@@ -51,7 +49,7 @@ export default function News({}: Props) {
     });
 
     return () => unsubscribe();
-  }, [selectedschool]);
+  }, []);
 
   React.useEffect(() => {
     console.log('uy')
@@ -59,30 +57,17 @@ export default function News({}: Props) {
       if(currentUser != null){
         const result: educationdata[] = await fetcheducation(currentUser?.uid) || [];
         const mapSchool: string = result[0].school
-      
-        setselectedschool(mapSchool)
         console.log('meron: ',mapSchool)
       } 
     }
     getUser()
   },[currentUser?.uid])
 
-  const selectSchool = (item: string) => {
-    setselectedschool(item)
-  }
   return (
     <div className='container'>
         <img draggable = {false} src="https://i.imgur.com/mzylrqX.png" alt="Your Image"/>
       <div className="image-overlay">
         <div style = {{position: 'absolute', top: '13%'}}>
-        <div className='school-select-container'>
-          {!currentUser?.uid  && schools.map((item, index) => 
-            <a
-              onClick={() => selectSchool(item)}
-              className={selectedschool === item ? 'school-select' : 'unselected'}
-              key={index}>{item} </a>
-          )}
-        </div>
           {data && data.map((item, index) => (<Data data = {item} />))}
         </div>
       </div>

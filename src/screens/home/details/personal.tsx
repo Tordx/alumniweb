@@ -56,23 +56,29 @@ export default function Personal({}: Props) {
       const {uid, name, birthdate, civilstatus, contactnumber, email, social, age, sex, address} = form[0]
       
       if(!name && !birthdate && !civilstatus){ 
-          alert('Confirm your new password')
+          alert('Name, Birthdate, and Civil Status fields must not be blank')
       } else {
         try {
 
           const personalRef = doc(db, 'user', currentUser?.uid || '');
-            await updateDoc(personalRef, {
-              uid: uid,
-              name: name,
-              birthdate: birthdate.toString(),
-              age: age,
-              address: address,
-              sex: sex,
-              civilstatus: civilstatus,
-              contactnumber: contactnumber,
-              email: email,
-              social: social,
-            }).then(() => {
+          
+          const birthdatenow = birthdate?.toString()
+
+          const personalData = {
+            ...( uid && { uid }),
+            ...( name && { name }),
+            ...( birthdatenow && { birthdate }),
+            ...( civilstatus  && { civilstatus }),
+            ...( age && { age }),
+            ...( email  && { email }),
+            ...( address && { address }),
+            ...( contactnumber && { contactnumber }),
+            ...( social && { social }),
+            ...( sex && { sex }),
+
+          }
+
+            await updateDoc(personalRef, personalData).then(() => {
               alert('Personal Information succesfully updated')
               setform([
                 { 

@@ -5,7 +5,7 @@ import '../styles/components.css'
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebase/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUser, faLocationDot, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCircleUser, faEnvelope, faLocationDot, faUser } from '@fortawesome/free-solid-svg-icons';
 import NavBarItems from './navigator/navbaritems';
 import { educationdata, personaldata } from 'types/interfaces';
 import { fetcheducation, fetchpersonaldata } from '../../../firebase/function';
@@ -82,6 +82,7 @@ export const PublicHeader: React.FC<Props> = ({menu}) => {
       {dropdownVisible && (
         <div className="dropdown-menu">
           <CustomButton onClick={() => setDropdownVisible(false)} title='Login Account' icon = {faUser} to = '/login' />
+          <CustomButton onClick={() => setDropdownVisible(false)} title='Contact us' icon = {faEnvelope} to = '/contactus' />
         </div>
       )}
     </div>
