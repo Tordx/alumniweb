@@ -12,23 +12,41 @@ export default function Activities({}: Props) {
 
   const [data, setdata] = React.useState<postdata[]>([])
   const {currentUser} = useContext(AuthContext)
+  const [school, setschool] = React.useState<string>('')
+
+
+
+  React.useEffect(() => {
+    console.log('uy')
+    const getUser = async() => {
+      if(currentUser != null){
+        const result: educationdata[] = await fetcheducation(currentUser?.uid) || [];
+        const mapSchool: string = result[0].school
+            console.log('meron: ',mapSchool)
+            setschool(mapSchool)
+
+      } 
+    }
+    getUser()
+  },[currentUser?.uid])
+
   React.useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'post'), (snapshot) => {
       const result: postdata[] = [];
       snapshot.forEach((doc) => {
         const postData = doc.data();
-        if (postData.active === true && postData.type === 'activities') {
-          result.push({
-            uid: postData.uid,
-            id: postData.postid,
-            time: postData.time,
-            photo: postData.photo,
-            text: postData.text,
-            active: postData.active,
-            type: postData.type,
-            school: postData.school,
-          });
-        }
+          if (postData.active === true && postData.type === 'activities' && postData.school === school)
+            result.push({
+              uid: postData.uid,
+              id: postData.postid,
+              time: postData.time,
+              photo: postData.photo,
+              text: postData.text,
+              active: postData.active,
+              type: postData.type,
+              school: postData.school,
+            });
+        
       });
       const sortedResult = result.sort((a: postdata, b: postdata) => {
         const getTime = (timestamp: any): number => {
@@ -47,19 +65,7 @@ export default function Activities({}: Props) {
     });
 
     return () => unsubscribe();
-  }, []);
-
-  React.useEffect(() => {
-    console.log('uy')
-    const getUser = async() => {
-      if(currentUser != null){
-        const result: educationdata[] = await fetcheducation(currentUser?.uid) || [];
-        const mapSchool: string = result[0].school
-            console.log('meron: ',mapSchool)
-      } 
-    }
-    getUser()
-  },[currentUser?.uid])
+  }, [school]);
 
 
   return (

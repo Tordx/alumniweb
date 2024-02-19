@@ -10,14 +10,28 @@ type Props = {}
 export default function Events({}: Props) {
 
   const [data, setdata] = React.useState<postdata[]>([])
+  const [school, setschool] = React.useState<string>('')
   const {currentUser} = useContext(AuthContext)
 
+  React.useEffect(() => {
+    console.log('uy')
+    const getUser = async() => {
+      if(currentUser != null){
+        const result: educationdata[] = await fetcheducation(currentUser?.uid) || [];
+        const mapSchool: string = result[0].school
+        setschool(mapSchool)
+        console.log('meron: ',mapSchool)
+      } 
+    }
+    getUser()
+  },[currentUser?.uid])
+  
   React.useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'post'), (snapshot) => {
       const result: postdata[] = [];
       snapshot.forEach((doc) => {
         const postData = doc.data();
-        if (postData.active === true && postData.type === 'events') {
+        if (postData.active === true && postData.type === 'events' && postData.school === school)
           result.push({
             uid: postData.uid,
             id: postData.postid,
@@ -28,7 +42,7 @@ export default function Events({}: Props) {
             type: postData.type,
             school: postData.school,
           });
-        }
+        
       });
       const sortedResult = result.sort((a: postdata, b: postdata) => {
         const getTime = (timestamp: any): number => {
@@ -47,20 +61,8 @@ export default function Events({}: Props) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [school]);
 
-  React.useEffect(() => {
-    console.log('uy')
-    const getUser = async() => {
-      if(currentUser != null){
-        const result: educationdata[] = await fetcheducation(currentUser?.uid) || [];
-        const mapSchool: string = result[0].school
-      
-        console.log('meron: ',mapSchool)
-      } 
-    }
-    getUser()
-  },[currentUser?.uid])
   return (
     <div className='container'>
         <img draggable = {false} src="https://i.imgur.com/mzylrqX.png" alt="Your Image"/>

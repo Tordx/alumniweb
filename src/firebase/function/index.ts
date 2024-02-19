@@ -1,6 +1,6 @@
 import {getDocs,collection, setDoc, doc} from '@firebase/firestore'
 import { db } from '..';
-import { educationdata, employmentdata, personaldata, postdata, statusdata } from '../../types/interfaces';
+import { educationdata, employmentdata, newsletter, personaldata, postdata, statusdata } from '../../types/interfaces';
 
 export const fetchdata = async(data: string) => {
   try {
@@ -25,6 +25,24 @@ export const fetchdata = async(data: string) => {
   } catch(error){
     console.log(error)
   }
+  }
+
+  export const fetchnewsletter = async(email: string) => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      const thisdata: newsletter[] = []
+      querySnapshot.forEach((doc) => {
+        if(doc.data().email ==  email)
+        thisdata.push({
+          email: doc.data().email,
+          contact: doc.data().contact,
+          uid: doc.data().uid,
+        })
+      })
+      return thisdata
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   export const fetchpersonaldata = async(uid: string,) => {

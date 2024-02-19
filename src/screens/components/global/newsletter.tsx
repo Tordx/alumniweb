@@ -8,6 +8,7 @@ import { db } from '../../../firebase/index'
 type Props = {
     isOpen: boolean,
     onClose: (e: any) => void,
+	signed: (e: boolean) => void,
 }
 
 interface poppy {
@@ -16,7 +17,7 @@ interface poppy {
 	contact: string,
 }
 
-export default function NewsLetter ({ isOpen, onClose }: Props)  {
+export default function NewsLetter ({ isOpen, onClose, signed }: Props)  {
 
 	const [email, setemail] = React.useState('')
 	const [contact, setcontact] = React.useState('')
@@ -58,7 +59,9 @@ export default function NewsLetter ({ isOpen, onClose }: Props)  {
 
 		const checkstatus = await fetchNewsLetter(email, contact)
 		if(checkstatus) {
-		alert('whoops, please check the fields')
+		alert('Thank you for signing up')
+		signed(false)
+		localStorage.removeItem('loggedin')
 		} else {
 			if((!email && !contact) || 
 					(email && !email.includes('@')) || 
@@ -76,6 +79,7 @@ export default function NewsLetter ({ isOpen, onClose }: Props)  {
 						contact: contact,
 					}).then(() => {
 						localStorage.setItem("newsletter", JSON.stringify('newsletter'));
+						localStorage.removeItem('loggedin')
 						alert('Successfully added to newsletter')
 					})
 				} catch (error) {

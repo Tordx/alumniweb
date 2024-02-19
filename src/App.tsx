@@ -20,13 +20,13 @@ import Logout from 'screens/partials/auth/logout';
 import { PublicHeader } from 'screens/components/gen/publicheader';
 import NewsLetter from 'screens/components/global/newsletter';
 import Emailer from 'screens/contents/emailer';
+import { log } from 'console';
 
 
 //**NOTE**(((((ONLY USE TSRFC WHEN CREATING NEW SCREENS)))))**NOTE**/
 
 const App: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
-  const [isOpen, setIsIOpen] = useState(false);
 
   const ProtectedRoute: React.FC<children> = ({ children }) => {
     if (currentUser === null) {
@@ -36,27 +36,12 @@ const App: React.FC = () => {
     return children
   };
 
-  React.useEffect(() => {
-    newsLetter()
-  },[])
 
-  const newsLetter = async() => {
-    console.log('this is where website ask you for newsletter')
-    const saved: string = localStorage.getItem('newsletter') || '';
-    console.log(saved)
-    if(saved == '') {
-      console.log('newsletter unsubscribed')
-      setIsIOpen(true)
-    } else {
 
-      console.log('newsletter subscribed')
-      return
-    }
-  }
   return (
     <BrowserRouter>
       {currentUser ? <Header menu={Navbarmenu} /> : <PublicHeader menu={Navbarmenu}  />}
-      {isOpen && currentUser && <NewsLetter isOpen = {isOpen} onClose={() => setIsIOpen(false)} />}
+     
       <Routes>
        <Route  path="/">
           <Route path="login" element={<Login/>} />

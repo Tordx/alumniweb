@@ -1,5 +1,9 @@
 //NOTE:You must create new interface for each data that has different data types
-
+export interface newsletter {
+  contact: string,
+  email: string,
+  uid: string,
+}
 //this interface is use in personaldata
 //if you have any additions add comment
 export interface name {
@@ -11,6 +15,7 @@ export interface name {
 }
 //---->personaldata use when pulling user's personal information<-----
 //---->data usage in header navigation bar, login, and profile<------
+
 export interface personaldata {
 
   uid: string,

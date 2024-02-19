@@ -71,6 +71,7 @@ export default function Login({}) {
         const email = userData[0].email;
         const password = loginpassword;
         settoast('logging in...')
+        localStorage.setItem("loggedin", JSON.stringify('loggedin'))
         await signInWithEmailAndPassword(auth, email, password).then(() => {
           setloading(false)
           navigate("/alumni/news")
